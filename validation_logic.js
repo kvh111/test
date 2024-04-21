@@ -12,12 +12,12 @@
 // })
 
 const authorizedUsers = require('./apis/userids.json');
-
+console.log(authorizedUsers)
 // Get the pull request author's username from command-line arguments
 const pullRequestAuthor = process.argv[2];
 
 // Check if the pull request author is in the list of authorized users
-if (authorizedUsers.includes(pullRequestAuthor)) {
+if (authorizedUsers['github-userids'].includes(pullRequestAuthor)) {
   console.log(`${pullRequestAuthor} is an authorized user.`);
 } else {
   console.log(`${pullRequestAuthor} is not an authorized user. PR rejected.`);
