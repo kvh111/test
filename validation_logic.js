@@ -17,15 +17,24 @@ const pullRequestAuthor = process.argv[2];
 const changedfiles = process.argv.slice(3);
 console.log(changedfiles)
 
-const changedFilesArray = changedfiles.split(" ")
+const input = `${changedfiles}`
+const regex = /\s+/; // Regular expression to match one or more spaces
+const output = input.split(regex);
+console.log(output)
 
-for(let i=0;i<changedFilesArray.length;i++){
-    if(!changedFilesArray[i].includes(".md")){
-        const parts = changedFilesArray[i].split("/");
+for(let i=0;i<output.length;i++){
+    if(!output[i].includes(".md")){
+        const parts = output[i].split("/");
         const name = parts[1];
         console.log(name);
         const authorizedUsers = require(`./apis/${name}/userids.json`);
         console.log(authorizedUsers)    
+        if (authorizedUsers['github-userids'].includes(pullRequestAuthor)) {
+            console.log(`${pullRequestAuthor} is an authorized user.`);
+          } else {
+            console.log(`${pullRequestAuthor} is not an authorized user. PR rejected.`);
+            process.exit(1); // Exit with a non-zero status code to indicate failure
+          }
     }
 }
 
@@ -33,10 +42,5 @@ for(let i=0;i<changedFilesArray.length;i++){
 
 
 // Check if the pull request author is in the list of authorized users
-if (authorizedUsers['github-userids'].includes(pullRequestAuthor)) {
-  console.log(`${pullRequestAuthor} is an authorized user.`);
-} else {
-  console.log(`${pullRequestAuthor} is not an authorized user. PR rejected.`);
-  process.exit(1); // Exit with a non-zero status code to indicate failure
-}
+
 
