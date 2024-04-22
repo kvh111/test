@@ -1,31 +1,21 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-
   pull_request:
-    branches: [ "main" ]
-    types:  [opened, synchronize, reopened, ready_for_review, edited]
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review, edited]
 
- 
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
- validate:
-  runs-on : ubuntu-latest
+  validate:
+    runs-on: ubuntu-latest
 
-  steps:
-  - name: checkout repository
-    uses: actions/checkout@v2
-  
-  - name: get PR author 
-    id: pr_author
-    run: echo "::set-output name=author::${{ github.event.pull_request.user.login}}"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Get PR author and changed files
+        id: pr_info
+        run: echo "::set-output name=author::${{ github.event.pull_request.user.login }}" && echo "::set-output name=files::${{ join(github.event.pull_request.files, ',') }}"
 
-  - name:  Run validation script
-    run: node validation_logic.js ${{ steps.pr_author.outputs.author }}
-
-
+      - name: Run validation script
+        run: node validation_logic.js ${{ steps.pr_info.outputs.author }} ${{ steps.pr_info.outputs.files }}
