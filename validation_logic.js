@@ -1,24 +1,9 @@
-// const fs = require("fs");
-
-// fs.readFile('/Havya/test/apis/userids.json','utf-8', (err, data) =>{
-//     if(err){
-//         console.log(err);
-//         return;
-//     }
-//     console.log(data)
-//     const userIdsObject = JSON.parse(data);
-//     const userIdsArray = userIdsObject['github-userids']
-//     console.log(userIdsArray)
-// })
-
-
-// Get the pull request author's username from command-line arguments
 const pullRequestAuthor = process.argv[2];
 const changedfiles = process.argv.slice(3);
 console.log(changedfiles)
 
 const input = `${changedfiles}`
-const regex = /\s+/; // Regular expression to match one or more spaces
+const regex = /\s+|\[|\]|'/g;
 const output = input.split(regex);
 console.log(output)
 
