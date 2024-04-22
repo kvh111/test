@@ -17,8 +17,20 @@ const pullRequestAuthor = process.argv[2];
 const changedfiles = process.argv.slice(3);
 console.log(changedfiles)
 
-const authorizedUsers = require('./apis/userids.json');
-console.log(authorizedUsers)
+const changedFilesArray = changedfiles.split(" ")
+
+for(let i=0;i<changedFilesArray.length;i++){
+    if(!changedFilesArray[i].includes(".md")){
+        const parts = changedFilesArray[i].split("/");
+        const name = parts[1];
+        console.log(name);
+        const authorizedUsers = require(`./apis/${name}/userids.json`);
+        console.log(authorizedUsers)    
+    }
+}
+
+
+
 
 // Check if the pull request author is in the list of authorized users
 if (authorizedUsers['github-userids'].includes(pullRequestAuthor)) {
