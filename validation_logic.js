@@ -1,5 +1,5 @@
 const pullRequestAuthor = process.argv[2];
-const changedfiles = process.argv.slice(3);
+const changedfiles = process.argv[3];
 console.log(changedfiles)
 
 const input = `${changedfiles}`
