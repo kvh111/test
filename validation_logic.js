@@ -29,6 +29,12 @@ for(let i=0;i<output.length;i++){
         console.log(name);
         const authorizedUsers = require(`./apis/${name}/userids.json`);
         console.log(authorizedUsers)    
+        if (authorizedUsers['github-userids'].includes(pullRequestAuthor)) {
+            console.log(`${pullRequestAuthor} is an authorized user.`);
+          } else {
+            console.log(`${pullRequestAuthor} is not an authorized user. PR rejected.`);
+            process.exit(1); // Exit with a non-zero status code to indicate failure
+          }
     }
 }
 
@@ -36,10 +42,5 @@ for(let i=0;i<output.length;i++){
 
 
 // Check if the pull request author is in the list of authorized users
-if (authorizedUsers['github-userids'].includes(pullRequestAuthor)) {
-  console.log(`${pullRequestAuthor} is an authorized user.`);
-} else {
-  console.log(`${pullRequestAuthor} is not an authorized user. PR rejected.`);
-  process.exit(1); // Exit with a non-zero status code to indicate failure
-}
+
 
