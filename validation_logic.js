@@ -2,9 +2,9 @@ const pullRequestAuthor = process.argv[2];
 const changedfiles = process.argv[3];
 console.log(changedfiles)
 
-const input = `${changedfiles}`
+
 const regex = /\s+|\[|\]|'/g;
-const output = input.split(regex);
+const output = changedfiles.split(regex);
 console.log(output)
 
 for(let i=0;i<output.length;i++){
