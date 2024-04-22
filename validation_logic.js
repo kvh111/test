@@ -14,7 +14,7 @@
 
 // Get the pull request author's username from command-line arguments
 const pullRequestAuthor = process.argv[2];
-const changedfiles = process.argv[3].split(",");
+const changedfiles = process.argv.slice(3);
 console.log(changedfiles)
 
 const authorizedUsers = require('./apis/userids.json');
