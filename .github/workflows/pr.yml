@@ -15,7 +15,12 @@ jobs:
       
       - name: Get PR author and changed files
         id: pr_info
-        run: echo "::set-output name=author::${{ github.event.pull_request.user.login }}" && echo "::set-output name=files::${{ join(github.event.pull_request.files, ',') }}"
+        run: echo "::set-output name=author::${{ github.event.pull_request.user.login }}"
+      
+      - name: Get changed files
+        id: changed-files
+        uses:  tj-actions/changed-files@v44
+
 
       - name: Run validation script
-        run: node validation_logic.js ${{ steps.pr_info.outputs.author }} ${{ steps.pr_info.outputs.files }}
+        run: node validation_logic.js ${{ steps.pr_info.outputs.author }} "${{ steps.changed-files.outputs.all_changed_files }}"
